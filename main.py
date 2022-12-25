@@ -108,11 +108,8 @@ def count_letters():
                     letter_frequency[letter] = 1
     print(letter_frequency)
 
-    try:
-        highest_letter = str(Counter(letter_frequency).most_common()[1]).split(", ")[0].strip("('")
-        guessed_letters.append(highest_letter)
-    except IndexError:
-        exit()
+    highest_letter = str(Counter(letter_frequency).most_common()[1]).split(", ")[0].strip("('")
+    guessed_letters.append(highest_letter)
 
     print("does your word have an '" + highest_letter + "' in it?")
     if input("y/n >").lower() == "y":
