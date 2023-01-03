@@ -19,6 +19,7 @@ word_length = int(input(">"))
 
 
 def remove_len_words():
+    print("Removing words that aren't {} characters long".format(word_length))
     wrong_words = []
     for current_word in word_array:
         if len(current_word) != word_length:
@@ -26,6 +27,8 @@ def remove_len_words():
     while len(wrong_words) != 0:
         word_array.remove(wrong_words[0])
         wrong_words.remove(wrong_words[0])
+    print("Number of possible words: {}".format(len(word_array)))
+    print("Possible words: {}".format(word_array))
 
 
 remove_len_words()
@@ -77,6 +80,8 @@ def remove_wrong_letters(removed_letter):
     while len(wrong_words) != 0:
         word_array.remove(wrong_words[0])
         wrong_words.remove(wrong_words[0])
+    print("Number of possible words: {}".format(len(word_array)))
+    print("Possible words: {}".format(word_array))
 
 
 def remove_right_letters(removed_letter):
@@ -93,19 +98,30 @@ def remove_right_letters(removed_letter):
         word_array.remove(wrong_words[0])
         wrong_words.remove(wrong_words[0])
 
+    if len(word_array) == word_length:
+        print("your word is {}".format(word_array))
+        exit()
+    print("Number of possible words: {}".format(len(word_array)))
     print("Possible words: {}".format(word_array))
 
 
 def count_letters():
     global letter_frequency
+    word_letter_count = []
 
     for current_word in word_array:
         for letter in current_word:
             if letter not in guessed_letters:
-                if letter in letter_frequency:
-                    letter_frequency[letter] += 1
-                else:
-                    letter_frequency[letter] = 1
+                if letter not in word_letter_count:
+                    word_letter_count.append(letter)
+
+        while len(word_letter_count) != 0:
+            if word_letter_count[0] in letter_frequency:
+                letter_frequency[word_letter_count[0]] += 1
+            else:
+                letter_frequency[word_letter_count[0]] = 1
+            word_letter_count.remove(word_letter_count[0])
+
     print(letter_frequency)
 
     highest_letter = str(Counter(letter_frequency).most_common()[1]).split(", ")[0].strip("('")
@@ -122,7 +138,7 @@ def count_letters():
 
 
 def main_game():
-    while len(guess_word.replace("_", "")) != word_length:
+    while len(word_array) != word_length:
         print_table()
         count_letters()
 
